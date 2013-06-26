@@ -24,7 +24,7 @@ public class GUI extends JFrame {
     }
 
     public GUI(){
-        super("Manner's Map Utility v1");
+        super("Manner's Map Utility v1.1");
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -34,7 +34,7 @@ public class GUI extends JFrame {
         }
         codePanel.setVisible(false);
         setSize(720, 480);
-        setMinimumSize(new Dimension(650, 440));
+        setMinimumSize(new Dimension(700, 440));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

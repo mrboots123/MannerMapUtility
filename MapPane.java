@@ -21,6 +21,7 @@ public class MapPane extends JPanel implements MouseListener, MouseMotionListene
     private Point mapLoc = new Point(-1547, -1605);
     private double scale = 1.0;
     private Label status = new Label("Initializing...");
+    public static final ArrayList<MapTile> UNDOED = new ArrayList<MapTile>();
     public static final ArrayList<MapTile> TILES = new ArrayList<MapTile>();
     public static boolean areaSelected = false;
     public static int dragSpacing = 5;
@@ -136,6 +137,7 @@ public class MapPane extends JPanel implements MouseListener, MouseMotionListene
         if (e.getButton() == MouseEvent.BUTTON1) {
             left = true;
             if (e.getPoint().x >= 0 && e.getPoint().x <= getWidth() && e.getPoint().y >= 0 && e.getPoint().y <= getHeight()) {
+                if(TILES.isEmpty()) UNDOED.clear();
                 TILES.add(getTile());
             }
         }

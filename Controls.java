@@ -13,16 +13,41 @@ import java.awt.event.ActionListener;
 public class Controls extends JPanel {
 
     public static final JButton getCode = new JButton("Get Code");
-    private final JSpinner spinner = new JSpinner(new SpinnerNumberModel(5,1,99,1));
+    private final JSpinner spinner = new JSpinner(new SpinnerNumberModel(5, 1, 99, 1));
     private static final JLabel tileInfo = new JLabel("Tile: (0, 0, 0)");
 
-    public Controls(){
+    public Controls() {
         JRadioButton path = new JRadioButton("Path", true);
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(path);
         JRadioButton area = new JRadioButton("Area");
         buttonGroup.add(area);
         tileInfo.setFont(tileInfo.getFont().deriveFont(16f));
+        JButton undo = new JButton("Undo");
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = MapPane.TILES.size() - 1;
+                if (index >= 0) {
+                    MapPane.UNDOED.add(MapPane.TILES.get(index));
+                    MapPane.TILES.remove(index);
+                    getParent().repaint();
+                }
+
+            }
+        });
+        JButton redo = new JButton("Redo");
+        redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = MapPane.UNDOED.size() - 1;
+                if (index >= 0) {
+                    MapPane.TILES.add(MapPane.UNDOED.get(index));
+                    MapPane.UNDOED.remove(index);
+                    getParent().repaint();
+                }
+            }
+        });
         JButton clear = new JButton("Clear");
         clear.addActionListener(new ActionListener() {
             @Override
@@ -51,7 +76,7 @@ public class Controls extends JPanel {
         getCode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(getCode.getText().equalsIgnoreCase("Get Code")){
+                if (getCode.getText().equalsIgnoreCase("Get Code")) {
                     GUI.showCode(true);
                     getCode.setText("Hide Code");
                 } else {
@@ -62,7 +87,7 @@ public class Controls extends JPanel {
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                MapPane.dragSpacing = (Integer)spinner.getValue();
+                MapPane.dragSpacing = (Integer) spinner.getValue();
             }
         });
         setLayout(new BorderLayout());
@@ -75,6 +100,8 @@ public class Controls extends JPanel {
         left.add(label);
         left.add(spinner);
         center.add(tileInfo);
+        right.add(undo);
+        right.add(redo);
         right.add(clear);
         right.add(getCode);
         add(left, BorderLayout.WEST);
@@ -82,7 +109,7 @@ public class Controls extends JPanel {
         add(right, BorderLayout.EAST);
     }
 
-    public static void setTile(MapTile t){
+    public static void setTile(MapTile t) {
         tileInfo.setText("Tile: " + t);
     }
 }
